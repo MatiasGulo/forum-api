@@ -5,6 +5,7 @@ const DomainErrorTranslator = require('../../Commons/exceptions/DomainErrorTrans
 const users = require('../../Interfaces/http/api/users');
 const authentications = require('../../Interfaces/http/api/authentications');
 const threads = require('../../Interfaces/http/api/threads');
+const comments = require('../../Interfaces/http/api/comments');
 
 const createServer = async (container) => {
   const server = Hapi.server({
@@ -16,13 +17,12 @@ const createServer = async (container) => {
     { plugin: Jwt },
   ]);
 
-  // define JWT auth strategy
-  server.auth.strategy('forum_jwt', 'jwt', {
+  server.auth.strategy('forumapi_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
     verify: {
-      aud: false, // audience
-      iss: false, // issuer
-      sub: false, // subject
+      aud: false,
+      iss: false,
+      sub: false,
       maxAgeSec: process.env.ACCESS_TOKEN_AGE,
     },
     validate: (artifacts) => ({
@@ -39,11 +39,15 @@ const createServer = async (container) => {
       options: { container },
     },
     {
+      plugin: authentications,
+      options: { container },
+    },
+    {
       plugin: threads,
       options: { container },
     },
     {
-      plugin: authentications,
+      plugin: comments,
       options: { container },
     },
   ]);
@@ -70,6 +74,8 @@ const createServer = async (container) => {
       if (!translatedError.isServer) {
         return h.continue;
       }
+
+      // console.log(response.message);
 
       // penanganan server error sesuai kebutuhan
       const newResponse = h.response({
