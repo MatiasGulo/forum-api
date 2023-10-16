@@ -1,4 +1,4 @@
-const createServer = require('./createServer');
+const createServer = require('../createServer');
 
 describe('HTTP server', () => {
   it('should response 404 when request unregistered route', async () => {
@@ -8,7 +8,7 @@ describe('HTTP server', () => {
     // Action
     const response = await server.inject({
       method: 'GET',
-      url: '/unregisteredRoute',
+      url: '/randomRoute',
     });
 
     // Assert

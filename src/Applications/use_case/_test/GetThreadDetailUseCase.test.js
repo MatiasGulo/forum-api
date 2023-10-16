@@ -23,7 +23,7 @@ describe('GetThreadDetailUseCase', () => {
         },
         {
           id: 'comment-124',
-          username: 'faisal',
+          username: 'matias',
           date: 'date',
           content: '**komentar telah dihapus**',
         },
@@ -33,7 +33,7 @@ describe('GetThreadDetailUseCase', () => {
     const mockThreadRepository = new ThreadRepository();
     const mockCommentReposiotry = new CommentRepository();
 
-    mockThreadRepository.getDetailThread = jest.fn(() => Promise.resolve({
+    mockThreadRepository.getThread = jest.fn(() => Promise.resolve({
       id: 'thread-123',
       title: 'title',
       body: 'body',
@@ -47,14 +47,14 @@ describe('GetThreadDetailUseCase', () => {
         username: 'dicoding',
         date: 'date',
         content: 'content',
-        is_deleted: false,
+        is_delete: false,
       },
       {
         id: 'comment-124',
-        username: 'faisal',
+        username: 'matias',
         date: 'date',
         content: 'content',
-        is_deleted: true,
+        is_delete: true,
       },
     ]));
 
@@ -66,7 +66,7 @@ describe('GetThreadDetailUseCase', () => {
     const getDetailThread = await getThreadDetailUseCase.execute(useCasePayload);
 
     expect(getDetailThread).toStrictEqual(expectedThreadDetail);
-    expect(mockThreadRepository.getDetailThread).toBeCalledWith(useCasePayload.threadId);
+    expect(mockThreadRepository.getThread).toBeCalledWith(useCasePayload.threadId);
     expect(mockCommentReposiotry.getComment).toBeCalledWith(useCasePayload.threadId);
   });
 });

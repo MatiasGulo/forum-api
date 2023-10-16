@@ -1,5 +1,5 @@
-const RegisterThread = require('../../../Domains/threads/entities/RegisterThread');
-const RegisteredThread = require('../../../Domains/threads/entities/RegisteredThread');
+const AddThread = require('../../../Domains/threads/entities/AddThread');
+const AddedThread = require('../../../Domains/threads/entities/AddedThread');
 const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
 const addThreadUseCase = require('../AddThreadUseCase');
 
@@ -11,7 +11,7 @@ describe('AddThreadUseCase', () => {
       owner: 'owner',
     };
 
-    const expectedAddedThread = new RegisteredThread({
+    const expectedAddedThread = new AddedThread({
       id: 'thread-123',
       title: useCasePayload.title,
       owner: useCasePayload.owner,
@@ -30,7 +30,7 @@ describe('AddThreadUseCase', () => {
 
     expect(registerThread).toStrictEqual(expectedAddedThread);
     expect(mockThreadRepository.addThread).toBeCalledWith(
-      new RegisterThread({
+      new AddThread({
         title: useCasePayload.title,
         body: useCasePayload.body,
         owner: useCasePayload.owner,

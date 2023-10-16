@@ -1,13 +1,13 @@
-const RegisteredComment = require('../RegisteredComment');
+const AddedComment = require('../AddedComment');
 
-describe('a RegisteredComment entities', () => {
+describe('a AddedComment entities', () => {
   it('should throw error when payload did not contain needed property', () => {
     const payload = {
       id: 'id',
       content: 'content',
     };
 
-    expect(() => new RegisteredComment(payload)).toThrowError('REGISTERED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
+    expect(() => new AddedComment(payload)).toThrowError('ADDED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
   });
 
   it('should throw error when payload did not meet data type specification', () => {
@@ -17,7 +17,7 @@ describe('a RegisteredComment entities', () => {
       owner: ['owner'],
     };
 
-    expect(() => new RegisteredComment(payload)).toThrowError('REGISTERED_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new AddedComment(payload)).toThrowError('ADDED_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
   it('should create registeComment object correctly', () => {
@@ -27,7 +27,7 @@ describe('a RegisteredComment entities', () => {
       owner: 'owner',
     };
 
-    const { id, content, owner } = new RegisteredComment(payload);
+    const { id, content, owner } = new AddedComment(payload);
 
     expect(id).toEqual(payload.id);
     expect(content).toEqual(payload.content);

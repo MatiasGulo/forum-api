@@ -1,5 +1,5 @@
 const CommentRepository = require('../../Domains/comments/CommentRepository');
-const RegisteredComment = require('../../Domains/comments/entities/RegisteredComment');
+const AddedComment = require('../../Domains/comments/entities/AddedComment');
 const NotFoundError = require('../../Commons/exceptions/NotFoundError');
 const AuthorizationError = require('../../Commons/exceptions/AuthorizationError');
 
@@ -21,10 +21,10 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     const result = await this._pool.query(query);
 
-    return new RegisteredComment({ ...result.rows[0] });
+    return new AddedComment({ ...result.rows[0] });
   }
 
-  async verifyCommentAccess({ commentId, owner }) {
+  async verifyComment({ commentId, owner }) {
     const query = {
       text: 'SELECT * FROM comments WHERE id = $1',
       values: [commentId],

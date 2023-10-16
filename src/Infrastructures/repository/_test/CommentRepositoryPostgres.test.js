@@ -1,12 +1,12 @@
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
-const RegisterComment = require('../../../Domains/comments/entities/RegisterComment');
+const AddComment = require('../../../Domains/comments/entities/AddComment');
 const CommentRepositoryPostgres = require('../CommentRepositoryPostgres');
 const pool = require('../../database/postgres/pool');
 const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
-const RegisteredComment = require('../../../Domains/comments/entities/RegisteredComment');
+const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 
 describe('CommentRepositoryPostgres', () => {
   beforeAll(async () => {
@@ -26,7 +26,7 @@ describe('CommentRepositoryPostgres', () => {
   describe('addComment function', () => {
     it('should persist add comment and return added comment correctly', async () => {
       await ThreadsTableTestHelper.addThread({});
-      const registerComment = new RegisterComment({
+      const registerComment = new AddComment({
         threadId: 'thread-123',
         content: 'content',
         owner: 'user-123',
@@ -43,7 +43,7 @@ describe('CommentRepositoryPostgres', () => {
 
     it('should return registered comment correctly', async () => {
       await ThreadsTableTestHelper.addThread({});
-      const registerComment = new RegisterComment({
+      const registerComment = new AddComment({
         threadId: 'thread-123',
         content: 'content',
         owner: 'user-123',
@@ -54,7 +54,7 @@ describe('CommentRepositoryPostgres', () => {
 
       const registeredComment = await commenRepositoryPostgres.addComment(registerComment);
 
-      expect(registeredComment).toStrictEqual(new RegisteredComment({
+      expect(registeredComment).toStrictEqual(new AddedComment({
         id: 'comment-123',
         content: 'content',
         owner: 'user-123',
@@ -62,14 +62,14 @@ describe('CommentRepositoryPostgres', () => {
     });
   });
 
-  describe('verifyCommentAccess function', () => {
-    it('should verifyCommentAccess correctly', async () => {
+  describe('verifyComment function', () => {
+    it('should verifyComment correctly', async () => {
       const commenRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       await ThreadsTableTestHelper.addThread({});
       await CommentsTableTestHelper.addComment({});
 
-      await expect(commenRepositoryPostgres.verifyCommentAccess({
+      await expect(commenRepositoryPostgres.verifyComment({
         commentId: 'comment-123',
         owner: 'user-123',
       })).resolves.not.toThrowError();
@@ -78,7 +78,7 @@ describe('CommentRepositoryPostgres', () => {
     it('should throw NotFoundError when comment is not found', async () => {
       const commenRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
-      await expect(commenRepositoryPostgres.verifyCommentAccess('comment', 'owner')).rejects.toThrow(NotFoundError);
+      await expect(commenRepositoryPostgres.verifyComment('comment', 'owner')).rejects.toThrow(NotFoundError);
     });
 
     it('should throw ForbiddenError when has no access delete to comment', async () => {
@@ -87,7 +87,7 @@ describe('CommentRepositoryPostgres', () => {
       await ThreadsTableTestHelper.addThread({});
       await CommentsTableTestHelper.addComment({});
 
-      await expect(commentRepositoryPostgres.verifyCommentAccess({
+      await expect(commentRepositoryPostgres.verifyComment({
         commentId: 'comment-123',
         owner: 'owner',
       })).rejects.toThrow(AuthorizationError);

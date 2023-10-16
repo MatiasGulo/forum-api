@@ -70,8 +70,8 @@ describe('/threads endpoint', () => {
 
     it('should response 400 when request payload not meet data type specification', async () => {
       const requestPayload = {
-        title: 'title',
-        body: ['body'],
+        title: 123,
+        body: [],
       };
 
       const accessToken = await ServerTestHelper.getAccessToken();

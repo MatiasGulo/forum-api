@@ -75,7 +75,7 @@ describe('/authentications endpoint', () => {
       // Arrange
       const requestPayload = {
         username: 'dicoding',
-        password: 'wrong_password',
+        password: 'super_password',
       };
       const server = await createServer(container);
       // Add user

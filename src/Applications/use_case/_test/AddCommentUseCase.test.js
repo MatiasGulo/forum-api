@@ -1,5 +1,5 @@
-const RegisterComment = require('../../../Domains/comments/entities/RegisterComment');
-const RegisteredComment = require('../../../Domains/comments/entities/RegisteredComment');
+const AddComment = require('../../../Domains/comments/entities/AddComment');
+const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 const CommentRepository = require('../../../Domains/comments/CommentRepository');
 const AddCommentUseCase = require('../AddCommentUseCase');
 const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
@@ -12,7 +12,7 @@ describe('first', () => {
       owner: 'owner',
     };
 
-    const expectedRegisteredComment = new RegisteredComment({
+    const expectedAddedComment = new AddedComment({
       id: 'threadId',
       content: 'content',
       owner: 'owner',
@@ -21,8 +21,8 @@ describe('first', () => {
     const mockCommentRepository = new CommentRepository();
     const mockThreadRepository = new ThreadRepository();
 
-    mockCommentRepository.addComment = jest.fn(() => Promise.resolve(expectedRegisteredComment));
-    mockThreadRepository.verifyAvailableThread = jest.fn(() => Promise.resolve());
+    mockCommentRepository.addComment = jest.fn(() => Promise.resolve(expectedAddedComment));
+    mockThreadRepository.verifyThread = jest.fn(() => Promise.resolve());
 
     const getCommentUseCase = new AddCommentUseCase({
       commentRepository: mockCommentRepository,
@@ -31,8 +31,8 @@ describe('first', () => {
 
     const registeredComment = await getCommentUseCase.execute(useCasePayload);
 
-    expect(registeredComment).toStrictEqual(expectedRegisteredComment);
-    expect(mockCommentRepository.addComment).toBeCalledWith(new RegisterComment({
+    expect(registeredComment).toStrictEqual(expectedAddedComment);
+    expect(mockCommentRepository.addComment).toBeCalledWith(new AddComment({
       threadId: useCasePayload.threadId,
       content: useCasePayload.content,
       owner: useCasePayload.owner,

@@ -1,26 +1,26 @@
-const RegisteredThread = require('../RegisteredThread');
+const AddedThread = require('../AddedThread');
 
-describe('a RegisteredThread entities', () => {
+describe('a AddedThread entities', () => {
   it('should throw error when payload did not contain needed property', () => {
     const payload = {
       title: 'title',
       owner: 'owner',
     };
 
-    expect(() => new RegisteredThread(payload)).toThrowError('REGISTERED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
+    expect(() => new AddedThread(payload)).toThrowError('ADDED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
   });
 
   it('should throw error when payload did not meet data type specification', () => {
     const payload = {
       id: {},
-      title: 'true',
+      title: true,
       owner: 123,
     };
 
-    expect(() => new RegisteredThread(payload)).toThrowError('REGISTERED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new AddedThread(payload)).toThrowError('ADDED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
-  it('should create RegisteredThread object correctly', () => {
+  it('should create AddedThread object correctly', () => {
     // Arrange
     const payload = {
       id: 'thread-123',
@@ -29,7 +29,7 @@ describe('a RegisteredThread entities', () => {
     };
 
     // Action
-    const { id, title, owner } = new RegisteredThread(payload);
+    const { id, title, owner } = new AddedThread(payload);
 
     // Assert
     expect(id).toEqual(payload.id);

@@ -12,11 +12,11 @@ describe('a DetailComment entities', () => {
 
   it('should throw error when payload did not meet data type specification', () => {
     const payload = {
-      id: [],
+      id: 123,
       username: 'username',
       date: 'date',
       content: [],
-      isDelete: false,
+      is_delete: false,
     };
 
     expect(() => new DetailComment(payload)).toThrowError('DETAIL_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
@@ -28,7 +28,7 @@ describe('a DetailComment entities', () => {
       username: 'username',
       date: 'date',
       content: 'content',
-      is_deleted: true,
+      is_delete: true,
     };
 
     const {
@@ -47,7 +47,7 @@ describe('a DetailComment entities', () => {
       username: 'username',
       date: 'date',
       content: 'content',
-      is_deleted: false,
+      is_delete: false,
     };
 
     const {
