@@ -4,7 +4,7 @@ const CommentRepository = require('../../../Domains/comments/CommentRepository')
 const AddCommentUseCase = require('../AddCommentUseCase');
 const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
 
-describe('first', () => {
+describe('AddCommentUseCase', () => {
   it('should orchestrating the add comment action correctly', async () => {
     const useCasePayload = {
       threadId: 'threadId',
@@ -21,7 +21,11 @@ describe('first', () => {
     const mockCommentRepository = new CommentRepository();
     const mockThreadRepository = new ThreadRepository();
 
-    mockCommentRepository.addComment = jest.fn(() => Promise.resolve(expectedAddedComment));
+    mockCommentRepository.addComment = jest.fn(() => Promise.resolve(new AddedComment({
+      id: 'threadId',
+      content: 'content',
+      owner: 'owner',
+    })));
     mockThreadRepository.verifyThread = jest.fn(() => Promise.resolve());
 
     const getCommentUseCase = new AddCommentUseCase({
